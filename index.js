@@ -15,7 +15,7 @@ app.set('view engine', 'handlebars');
 app.set('views', './views');
 
 app.get('/', (req, res) => {
-  res.render('home', { lista });
+  res.render('home');
 });
 
 app.get('/add/product', (req, res) => {
