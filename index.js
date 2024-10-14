@@ -25,8 +25,23 @@ app.get('/add/product', (req, res) => {
 
 app.get('/Accesorios', (req, res) => {
 res.render('accs');
-})
+});
 
+app.get('/Equipo', (req, res) => {
+  res.render('equi');
+});
+
+app.get('/Repuestos', (req, res) =>{
+  res.render('repu');
+});
+
+app.get('/Replicas', (req, res) => {
+  res.render('repli');
+});
+
+app.get('/Login', (req, res) => {
+  res.render('login');
+});
 
 app.post('/products', async (req, res) => {
   const name = req.body.name;
