@@ -24,7 +24,7 @@ app.get('/add/product', (req, res) => {
 });
 
 app.get('/inicio/u', (req, res) => {
-  res.render('inicio');
+  res.render('pito');
 });
 
 app.post('/products', async (req, res) => {
