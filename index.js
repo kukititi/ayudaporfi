@@ -23,9 +23,6 @@ app.get('/add/product', (req, res) => {
   res.render('addProduct');
 });
 
-app.get('/inicio/u', (req, res) => {
-  res.render('pito');
-});
 
 app.post('/products', async (req, res) => {
   const name = req.body.name;
