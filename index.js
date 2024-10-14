@@ -42,14 +42,4 @@ app.get('/Login', (req, res) => {
   res.render('login');
 });
 
-app.post('/products', async (req, res) => {
-  const name = req.body.name;
-  const price = req.body.price;
-
-  const query = `INSERT INTO products (name, price) VALUES ($1, $2)`;
-  await sql(query, [name, price]);
-
-  res.redirect('/');
-});
-
 app.listen(3000, () => console.log('tuki'));
