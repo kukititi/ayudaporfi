@@ -9,7 +9,6 @@ const app = express();
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-app.use(express.static(path.join(css, 'public')));
 
 app.engine('handlebars', engine());
 app.set('view engine', 'handlebars');
@@ -39,5 +38,10 @@ app.get('/Replicas', (req, res) => {
 app.get('/Login', (req, res) => {
   res.render('login');
 });
+
+app.get('css/inicio.css', (req, res) => {
+  res.render('inicio.css');
+})
+
 
 app.listen(3000, () => console.log('tuki'));
