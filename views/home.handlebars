@@ -1,12 +1,37 @@
-    <div class="container-fluid hero-section text-center">
-       
+   
+    <div class="container-fluid hero-section text-center">  
         <div class="hero-text">
             <h1>Tienda Cool</h1>
             <p>Vendemos cosas bkns</p>
-             <img src="/Imagenes/BANNER.png" class="img-fluid" alt="Banner Vacaciones">
+             <div id="carouselExampleIndicators" class="carousel slide">
+               <div class="carousel-indicators">
+                 <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+                 <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2"></button>
+                 <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" aria-label="Slide 3"></button>
+               </div>
+               <div class="carousel-inner">
+                 <div class="carousel-item active">
+                   <img src="/Imagenes/BANNER.png" class="d-block w-100" alt="...">
+                 </div>
+                 <div class="carousel-item">
+                   <img src="/Imagenes/BANNER ACCESORIOS.png" class="d-block w-100" alt="...">
+                 </div>
+                 <div class="carousel-item">
+                   <img src="/Imagenes/BANER EQUIPAMIENTO.png" class="d-block w-100" alt="...">
+                 </div>
+               </div>
+               <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
+                 <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                 <span class="visually-hidden">Previous</span>
+               </button>
+               <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
+                 <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                 <span class="visually-hidden">Next</span>
+               </button>
+             </div>
         </div>
     </div>
-
+    
     <div class="container mt-5">
         <h2 class="text-center mb-4">Productos Destacados</h2>
         <div class="row">
@@ -18,8 +43,21 @@
                         <p class="card-text">$80.000</p>
                         <button class="alert-button">agregar al carrito</button>
                     </div>
+                    <div class="card__description">
+                        <p>Modelo: Glock 17</p>
+                        <p>Marca: Double Bell</p>
+                        <p>Material: Polímero/Metal</p>
+                        <p>Funcionamiento: Green Gas</p>
+                        <p>Potencia Aprox.: 290 a 310 FPS</p>
+                        <p>Largo: 250 mm</p>
+                        <p>Peso: 770 grs.</p>
+                        <p>Blow Back</p>
+                        <p>Hop-Up Ajustable</p>
+                        <p>Incluye: Caja de transporte, Magazine 24 Bbs., baqueta de limpieza.</p>
+                    </div>
                 </div>
             </div>
+
             <div class="col-md-3">
                 <div class="card">
                     <img src="/Imagenes/ar15.jpg" class="card-img-top" alt="AR15 Black">
@@ -28,23 +66,54 @@
                         <p class="card-text">$159.990</p>
                         <button class="alert-button">agregar al carrito</button>
                     </div>
+                    <div class="card__description">
+                        <p>Modelo: AR15 Black</p>
+                        <p>Marca: DMT</p>
+                        <p>Material: Metal</p>
+                        <p>Funcionamiento: Gas</p>
+                        <p>Potencia Aprox.: 350 FPS</p>
+                        <p>Largo: 800 mm</p>
+                        <p>Peso: 2500 grs.</p>
+                        <p>Blow Back</p>
+                        <p>Hop-Up Ajustable</p>
+                    </div>
                 </div>
             </div>
+
             <div class="col-md-3">
                 <div class="card">
                     <img src="/Imagenes/ar15 carabina.jpg" class="card-img-top" alt="AR15 Neutron">
                     <div class="card-body">
                         <h5 class="card-title">DMT AR15 NEUTRON CARBINE</h5>
                         <p class="card-text">$159.990</p>
+                        <button class="alert-button">agregar al carrito</button>
+                    </div>
+                    <div class="card__description">
+                        <p>Modelo: AR15 Neutron</p>
+                        <p>Marca: DMT</p>
+                        <p>Material: Metal/Polímero</p>
+                        <p>Funcionamiento: Eléctrico</p>
+                        <p>Potencia Aprox.: 360 FPS</p>
+                        <p>Largo: 850 mm</p>
+                        <p>Peso: 2800 grs.</p>
+                        <p>Hop-Up Ajustable</p>
                     </div>
                 </div>
             </div>
+
             <div class="col-md-3">
                 <div class="card">
                     <img src="/Imagenes/balines premiun.jpg" class="card-img-top" alt="Balines">
                     <div class="card-body">
                         <h5 class="card-title">BLS Balines Premium Grade</h5>
                         <p class="card-text">$10.990</p>
+                        <button class="alert-button">agregar al carrito</button>
+                    </div>
+                    <div class="card__description">
+                        <p>Calibre: 5.95 mm</p>
+                        <p>Peso: 0.25g</p>
+                        <p>Marca: BLS</p>
+                        <p>Pack: 1KG</p>
                     </div>
                 </div>
             </div>
