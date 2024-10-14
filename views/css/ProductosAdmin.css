@@ -1,0 +1,84 @@
+.button4{
+    text-decoration: none;
+    color: #ffffff;
+    background-color: #337555;
+    border: none;
+    border-radius: 5px;
+    padding: 0.5rem 1rem;
+    font-size: 1rem;
+    cursor: pointer;
+    
+  }
+  body {
+    background-color: #ffffff;
+  }
+  a{
+    text-decoration: none;
+    color: white;
+  
+  }
+  
+  .breadcrumb {
+    background-color: transparent;
+  }
+  
+  .card-header {
+    background-color: #e9ecef;
+    font-weight: bold;
+  }
+  
+  h3 {
+    font-weight: bold;
+  }
+  
+  .card-title {
+    font-size: 1rem;
+  }
+  
+  .card-text {
+    font-size: 0.9rem;
+    color: #28a745;
+  }
+  
+  .card img {
+    height: 200px;
+    object-fit: cover;
+  }
+  
+  aside h5 {
+    font-weight: bold;
+    margin-bottom: 1rem;
+  }
+  
+  .form-check-label, .list-unstyled li {
+    font-size: 0.9rem;
+  }
+  
+  #sortBy {
+    font-size: 0.9rem;
+  }
+  
+  #priceRange {
+    width: 100%;
+  
+  }
+  .a .btn{
+    background-color: #28a745;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 0.5rem 1rem;
+    font-size: 1rem;
+    cursor: pointer;
+  }  
+  .table-responsive {
+    width: 100%; /* Puedes ajustar el ancho según sea necesario */
+    height: 100%; /* También puedes ajustar la altura */
+    overflow: auto; /* Esto habilitará un scroll si el contenido es demasiado grande */
+  }
+  
+  .ellipsis {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }

@@ -1,0 +1,121 @@
+body {
+    font-family: Arial, sans-serif;
+  }
+  
+  .card {
+    width: auto;
+    height: auto;
+    
+  }
+  
+    footer {
+      background-color: #f8f9fa;
+    }
+  
+    h5 {
+      font-weight: bold;
+    }
+  
+    .social-icons img {
+      width: 24px;
+      margin-right: 10px;
+    }
+  
+    .payment-icons img {
+      width: 50px;
+      margin-right: 10px;
+    }
+  
+    footer p, footer a {
+      font-size: 14px;
+      color: #6c757d;
+    }
+  
+    footer a:hover {
+      text-decoration: none;
+      color: #007bff;
+    }
+  
+    footer .form-control {
+      max-width: 400px;
+    }
+  
+    .btn-primary {
+      background-color: #00b31e;
+      border: none;
+    }
+  
+  .button{
+    background-color: #01da34;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 0.5rem 1rem;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: .4s ease-in-out;
+  }
+  button:hover{
+    background-color: #156128;
+    
+  }
+  .button2{
+    text-decoration: none;
+    background-color: #28a745;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 0.5rem 1rem;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: .4s ease-in-out;
+  }
+  .button2:hover{
+    background-color: #18722e;
+  
+  }
+  .button4{
+    text-decoration: none;
+    background-color: #914646;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 0.5rem 1rem;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: .4s ease-in-out;
+  }
+  .button4:hover{
+    background-color: #673232;
+  }
+  
+  .btn-secondary {
+    background-color: #6c757d;
+    border: none;
+    border-radius: 5px;
+    padding: 0.5rem 1rem;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: .4s ease-in-out;
+  }
+  .btn-secondary:hover{
+    background-color: #5a6268;
+  }
+  .btn-outline-danger{
+    color: #ffff;
+    background-color: #dc3545;
+    border: none;
+    border-radius: 5px;
+    padding: 0.5rem 1rem;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: .4s ease-in-out;
+  }
+  .btn-outline-danger:hover{
+    background-color: #c82333;
+  }
+  .card img{
+    width: 30%;
+    height: 30%;
+  
+  }

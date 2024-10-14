@@ -1,0 +1,85 @@
+.alert-button{
+    text-decoration: none;
+}
+    .card {
+        position: relative;
+        overflow: hidden;
+    }
+
+
+    .card__description {
+        display: block;
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        background-color: rgb(255, 255, 255, 0.9);
+        color: black;
+        padding: 5px;
+        max-height: 0%;
+        overflow: hidden;
+        z-index: 1;
+        opacity: 0;
+        transition: opacity 0.5s ease, transform 0.5s ease;
+        transform: translateY;
+    }
+
+
+
+    .card:hover .card__description {
+        overflow: auto;
+        transition: opacity 0.5s ease, transform 0.5s ease;
+        transform: translateY;
+        opacity: 1;
+        transform: translateY;
+        display: auto;
+        max-height: 200px;
+    }
+
+    .card img {
+        width: 100%;
+        height: auto;
+        display: block;
+    }
+
+    .alert-button {
+        background-color: #28a745;
+        color: white;
+        border: none;
+        padding: 10px;
+        width: 100%;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+
+    .alert-button:hover {
+        background-color: #218838;
+    }
+
+button{
+  background-color: #28a745;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 0.5rem 1rem;
+  font-size: 1rem;
+  cursor: pointer;
+}  
+.btn-outline-primary {
+  background-color: #28a745;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 0.5rem 1rem;
+  font-size: 1rem;
+  cursor: pointer;
+}
+.btn-outline-primary:hover{
+  background-color: #017e1e;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 0.5rem 1rem;
+  font-size: 1rem;
+  cursor: pointer;
+}
