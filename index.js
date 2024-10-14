@@ -23,7 +23,7 @@ app.get('/add/product', (req, res) => {
   res.render('addProduct');
 });
 
-app.get('/inicio', (req, res) => {
+app.get('/inicio/u', (req, res) => {
   res.render('inicio');
 });
 
