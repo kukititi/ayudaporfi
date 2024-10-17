@@ -43,15 +43,15 @@ app.get('/NP', (req, res) => {
   res.render('NP');
 });
 
-app.post('/products', async (req, res) => {
+app.post('/NP', async (req, res) => {
   const name = req.body.name;
   const price = req.body.price;
-  const db = req.body.db;
+  const dbs = req.body.db;
   const descr = req.body.descr;
   const categ = req.body.categ;
 
-  const query = 'INSERT INTO products (id, name, price, db, decr, categ) VALUES ($1, $2, $3, $4, $5, $6)';
-  await sql(query, [name, price, db, descr, categ]);
+  const query = 'INSERT INTO products (name, price, dbs, decr, categ) VALUES ($1, $2, $3, $4, $5)';
+  await sql(query, [name, price, dbs, descr, categ]);
 
   res.redirect('/');
 });
