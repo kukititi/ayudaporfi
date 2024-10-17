@@ -39,11 +39,11 @@ app.get('/Login', (req, res) => {
   res.render('login');
 });
 
-app.get('/NP', (req, res) => {
-  res.render('NP');
+app.get('/prod', (req, res) => {
+  res.render('prod');
 });
 
-app.post('/NP', async (req, res) => {
+app.post('/products', async (req, res) => {
   const name = req.body.name;
   const price = req.body.price;
   const dbs = req.body.db;
