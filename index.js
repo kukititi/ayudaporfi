@@ -43,8 +43,7 @@ app.get('/NP', (req, res) => {
   res.render('NP');
 });
 
-app.post('/products', async(req, res) => {
-  const id = req.body.id;
+app.post('/products', async (req, res) => {
   const name = req.body.name;
   const price = req.body.price;
   const db = req.body.db;
@@ -52,7 +51,7 @@ app.post('/products', async(req, res) => {
   const categ = req.body.categ;
 
   const query = 'INSERT INTO products (id, name, price, db, decr, categ) VALUES ($1, $2, $3, $4, $5, $6)';
-  await sql(query, [id, name, price, db, descr, categ]);
+  await sql(query, [name, price, db, descr, categ]);
 
   res.redirect('/');
 });
