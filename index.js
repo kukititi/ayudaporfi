@@ -44,7 +44,7 @@ app.get('/NP', (req, res) => {
 });
 
 app.post('/products', async(req, res) => {
-  const id = req.body.id
+  const id = req.body.id;
   const name = req.body.name;
   const price = req.body.price;
   const db = req.body.db;
