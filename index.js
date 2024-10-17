@@ -39,9 +39,14 @@ app.get('/Login', (req, res) => {
   res.render('login');
 });
 
-app.get('css/inicio.css', (req, res) => {
-  res.render('inicio.css');
-})
+app.get('/NP', (req, res) => {
+  res.render('NP');
+});
+
+app.post('/products', async(req, res) => {
+  const name = req.body.name;
+  const price = req.body.price;
+});
 
 
 app.listen(3000, () => console.log('tuki'));
