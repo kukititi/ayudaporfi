@@ -50,7 +50,7 @@ app.post('/products', async (req, res) => {
   const descr = req.body.descr;
   const categ = req.body.categ;
 
-  const query = 'INSERT INTO products (name, price, dbs, decr, categ) VALUES ($1, $2, $3, $4, $5)';
+  const query = 'INSERT INTO products (name, price, dbs, descr, categ) VALUES ($1, $2, $3, $4, $5)';
   await sql(query, [name, price, dbs, descr, categ]);
 
   res.redirect('/');
