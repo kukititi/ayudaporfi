@@ -1,3 +1,5 @@
+import path from "path";
+import { fileURLToPath } from "url";
 import { neon } from '@neondatabase/serverless';
 import express from 'express';
 import { engine } from 'express-handlebars';
@@ -9,6 +11,10 @@ const sql = neon('postgresql://piscolita_owner:qg0uBlwk4vLc@ep-withered-silence-
 
 const app = express();
 
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+app.use(express.static(path.join(__dirname, "/public")));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
