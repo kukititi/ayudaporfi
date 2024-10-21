@@ -11,7 +11,8 @@ const app = express();
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-app.use(express.static('public'));
+app.use(express.static('css'));
+
 
 app.engine('handlebars', engine());
 app.set('view engine', 'handlebars');
