@@ -60,7 +60,7 @@ add.post('/patata', async (req, res) => {
   const name = req.body.name;
   const password = req.body.password;
 
-  const query = 'INSERT'
-})
+  const query = 'INSERT INTO users (name, password) VALUES ($1, $2)';
+});
 
 app.listen(3000, () => console.log('tuki'));
