@@ -58,7 +58,7 @@ app.post('/products', async (req, res) => {
   res.redirect('/');
 });
 
-add.post('/patata', async (req, res) => {
+app.post('/patata', async (req, res) => {
   const name = req.body.name;
   const password = req.body.password;
 
