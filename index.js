@@ -23,13 +23,15 @@ app.engine('handlebars', engine());
 app.set('view engine', 'handlebars');
 app.set('views', './views');
 
-app.get('/', (req, res) => {
-  res.render('home');
+app.get('/', async (req, res) => {
+  const lista = await sql('SELECT * FROM products');
+  res.render('home', { lista });
 });
 
 
-app.get('/Accesorios', (req, res) => {
-res.render('accs');
+app.get('/Accesorios', async (req, res) => {
+  const lista = await sql('SELECT * FROM products');
+res.render('accs', { lista });
 });
 
 app.get('/Equipo', (req, res) => {
@@ -66,6 +68,7 @@ app.post('/products', async (req, res) => {
 
   res.redirect('/');
 });
+
 
 app.post('/patata', async (req, res) => {
   const name = req.body.name;
