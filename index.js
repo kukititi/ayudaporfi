@@ -20,10 +20,16 @@ app.engine('handlebars', engine());
 app.set('view engine', 'handlebars');
 app.set('views', './views');
 
-app.get('/', (req, res) => {
-  res.render('home');
+app.get("/", async (req, res) => {
+  const products = await sql('SELECT * FROM products');
+  const users = await sql('SELECT * FROM users WHERE id = 1');
+  const user = users[0];
+  res.render("home", {
+    products,
+    user,
+    title: "Home",
+  });
 });
-
 
 app.get('/Accesorios', (req, res) => {
 res.render('accs');
@@ -44,5 +50,7 @@ app.get('/Replicas', (req, res) => {
 app.get('/Login', (req, res) => {
   res.render('login');
 });
+
+
 
 app.listen(3000, () => console.log('tuki'));
