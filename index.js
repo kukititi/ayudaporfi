@@ -55,4 +55,8 @@ app.get('/Registro', (req, res) => {
   res.render('regist');
 });
 
+app.get('/LogAdmin', (req, res) => {
+  res.render('LogAdmin');
+});
+
 app.listen(3000, () => console.log('tuki'));
