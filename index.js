@@ -9,6 +9,9 @@ const sql = neon('postgresql://piscolita_owner:qg0uBlwk4vLc@ep-withered-silence-
 
 const app = express();
 
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
 app.use(express.static(path.join(__dirname, "/public")));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
