@@ -51,8 +51,8 @@ app.get('/Login', (req, res) => {
   res.render('login');
 });
 
-app.get('/Registro', (req, res) => [
+app.get('/Registro', (req, res) => {
   res.render('regist');
-]);
+});
 
 app.listen(3000, () => console.log('tuki'));
