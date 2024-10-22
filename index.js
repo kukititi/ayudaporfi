@@ -39,6 +39,4 @@ app.get('/Login', (req, res) => {
   res.render('login');
 });
 
-
-
 app.listen(3000, () => console.log('tuki'));
