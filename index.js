@@ -59,4 +59,10 @@ app.get('/LogAdmin', (req, res) => {
   res.render('LogAdmin');
 });
 
+app.get('/prod', (req, res) => {
+  res.render('prod')
+})
+
+
+
 app.listen(3000, () => console.log('tuki'));
