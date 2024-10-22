@@ -60,8 +60,8 @@ app.get('/LogAdmin', (req, res) => {
 });
 
 app.get('/prod', (req, res) => {
-  res.render('prod')
-})
+  res.render('prod');
+});
 
 
 
