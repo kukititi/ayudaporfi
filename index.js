@@ -55,20 +55,20 @@ const users = await sql('SELECT * FROM users WHERE id = $1', [userId]);
 if (users.length === 0){
   console.log("Usuario no encontrado");
   return res.status(404).json({ message: "Usuario no encontrado" });
-}
+};
 const user = users[0];
 
 const products = await sql('SELECT * FROM products WHERE id = $1', [productId]);
 if (products.length === 0){
   console.log("Producto no encontrado");
   return res.status(404).json({ message: "Producto no encontrado" });
-}
+};
 const product = products[0];
 
 if (Number(quantity) > Number(product.suply)){
   console.log("No hay stock suficiente");
   return res.status(400).json({ message: "No hay stock suficiente" });
-}
+};
 
 
 
