@@ -51,18 +51,4 @@ app.get('/Login', (req, res) => {
   res.render('login');
 });
 
-const products = await sql('SELECT * FROM products WHERE id = $1', [productId]);
-if (products.length === 0){
-  console.log("Producto no encontrado");
-  res.status(404).json({ message: "Producto no encontrado" });
-};
-const product = products[0];
-
-if (Number(quantity) > Number(product.suply)){
-  console.log("No hay stock suficiente");
-  res.status(400).json({ message: "No hay stock suficiente" });
-};
-
-
-
 app.listen(3000, () => console.log('tuki'));
