@@ -63,6 +63,10 @@ app.get('/prod', (req, res) => {
   res.render('prod');
 });
 
+app.post('/login', async (req, res) => {
+  const name = req.body.name;
+  const password = req.body.contra;
+})
 
 
 app.listen(3000, () => console.log('tuki'));
