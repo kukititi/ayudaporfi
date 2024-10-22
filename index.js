@@ -51,13 +51,6 @@ app.get('/Login', (req, res) => {
   res.render('login');
 });
 
-const users = await sql('SELECT * FROM users WHERE id = $1', [id]);
-if (users.length === 0){
-  console.log("Usuario no encontrado");
-  res.status(404).json({ message: "Usuario no encontrado" });
-};
-const user = users[0];
-
 const products = await sql('SELECT * FROM products WHERE id = $1', [productId]);
 if (products.length === 0){
   console.log("Producto no encontrado");
