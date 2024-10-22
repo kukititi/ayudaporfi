@@ -9,13 +9,14 @@
 </head>
              
  <div class="container-fluid hero-section text-center vh-100 d-flex justify-content-center align-items-center">
-    <div class="hero-text"><form class="form">
+    <div class="hero-text">
+      <form action="/login" method="post">
     <p id="heading">Iniciar Sesión</p>
     <div class="field">
-      <input autocomplete="off" placeholder="Email" class="input-field" type="email">
+      <input name="name" autocomplete="off" placeholder="Email" class="input-field" type="email">
     </div>
     <div class="field">
-      <input placeholder="Contraseña" class="input-field" type="password">
+      <input name="contra" placeholder="Contraseña" class="input-field" type="password">
     </div>
     <button class="button1" type="submit">Login</button>
 
