@@ -43,8 +43,9 @@ app.get('/Repuestos', (req, res) =>{
   res.render('repu');
 });
 
-app.get('/Replicas', (req, res) => {
-  res.render('repli');
+app.get('/Replicas', async (req, res) => {
+  const lista = await sql('SELECT * FROM products');
+  res.render('repli', { lista });
 });
 
 app.get('/Login', (req, res) => {
