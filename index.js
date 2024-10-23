@@ -59,8 +59,8 @@ app.get('/LogAdmin', (req, res) => {
   res.render('LogAdmin');
 });
 
-app.get('/prod', (req, res) => {
-  res.render('prod');
+app.get('/products', (req, res) => {
+  res.render('products');
 });
 
 app.post('/login', async (req, res) => {
