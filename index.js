@@ -76,13 +76,13 @@ app.post('/regist', async (req, res) => {
 app.post('/producti', async (req, res) => {
   const name = req.body.name;
   const price = req.body.price;
-  const img = req.body.img;
+  const image = req.body.image;
   const categ = req.body.categ;
   const db = req.body.db;
   const descr = req.body.descr;
 
-  const query = 'INSERT INTO products (name, price, img, categ, db, descr) VALUES ($1, $2, $3, $4, $5, $6)';
-  await sql(query, [name, price, img, categ, db, descr]);
+  const query = 'INSERT INTO products (name, price, image, categ, db, descr) VALUES ($1, $2, $3, $4, $5, $6)';
+  await sql(query, [name, price, image, categ, db, descr]);
 
   res.redirect('/products');
 });
