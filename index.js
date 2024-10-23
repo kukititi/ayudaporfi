@@ -73,7 +73,7 @@ app.post('/regist', async (req, res) => {
   const password = req.body.password;
 });
 
-app.post('/prod', async (req, res) => {
+app.post('/products', async (req, res) => {
   const name = req.body.name;
   const price = req.body.price;
   const img = req-body.img;
@@ -84,7 +84,7 @@ app.post('/prod', async (req, res) => {
   const query = 'INSERT INTO products (name, price, img, categ, db, descr) VALUES ($1, $2, $3, $4, $5, $6)';
   await sql(querry, [name, price, img, categ, db, descr]);
 
-  res.redirect('/prod');
+  res.redirect('/products');
 });
 
 app.listen(3000, () => console.log('tuki'));
