@@ -66,7 +66,12 @@ app.get('/prod', (req, res) => {
 app.post('/login', async (req, res) => {
   const name = req.body.name;
   const password = req.body.contra;
-})
+});
+
+app.post('/regist', async (req, res) => {
+  const name = req.body.email;
+  const password = req.body.password;
+});
 
 
 app.listen(3000, () => console.log('tuki'));
