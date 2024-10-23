@@ -73,7 +73,7 @@ app.post('/regist', async (req, res) => {
   const password = req.body.password;
 });
 
-app.post('/products', async (req, res) => {
+app.post('/producti', async (req, res) => {
   const name = req.body.name;
   const price = req.body.price;
   const img = req-body.img;
@@ -82,7 +82,7 @@ app.post('/products', async (req, res) => {
   const descr = req.body.descr;
 
   const query = 'INSERT INTO products (name, price, img, categ, db, descr) VALUES ($1, $2, $3, $4, $5, $6)';
-  await sql(querry, [name, price, img, categ, db, descr]);
+  await sql(query, [name, price, img, categ, db, descr]);
 
   res.redirect('/products');
 });
