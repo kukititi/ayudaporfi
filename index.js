@@ -84,6 +84,7 @@ app.post('/registrar', async (req, res) => {
 
   const query = 'INSERT INTO users (email, password) VALUES ($1, $2)';
   await sql(query, [email, password]);
+  res.redirect('/login');
 });
 
 app.post('/producti', async (req, res) => {
