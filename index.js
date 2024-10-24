@@ -72,11 +72,12 @@ app.post('/login', async (req, res) => {
 });
 
 app.post('/registrar', async (req, res) => {
+  const name = req. body.name;
   const email = req.body.email;
   const password = req.body.password;
 
-  const query = 'INSERT INTO users (email, password) VALUES ($1, $2)';
-  await sql(query, [email, password]);
+  const query = 'INSERT INTO users (name, email, password) VALUES ($1, $2, $3)';
+  await sql(query, [name, email, password]);
   res.redirect('/login');
 });
 
