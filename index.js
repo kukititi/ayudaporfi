@@ -52,8 +52,9 @@ app.get('/Login', (req, res) => {
   res.render('login');
 });
 
-app.get('/Registro', (req, res) => {
-  res.render('regist');
+app.get('/Registro', async (req, res) => {
+  const lista = await sql('SELECT * FROM users');
+  res.render('regist', { lista });
 });
 
 app.get('/LogAdmin', (req, res) => {
@@ -61,7 +62,8 @@ app.get('/LogAdmin', (req, res) => {
 });
 
 app.get('/products', (req, res) => {
-  res.render('products');
+  const lista = await sql('SELECT * FROM products');
+  res.render('products' { lista });
 });
 
 app.post('/login', async (req, res) => {
@@ -72,6 +74,16 @@ app.post('/login', async (req, res) => {
 app.post('/regist', async (req, res) => {
   const name = req.body.email;
   const password = req.body.password;
+
+
+});
+
+app.post('/registrar', async (req, res) => {
+  const email = req.body.email;
+  const password = req.body.password;
+
+  const query = 'INSERT INTO users (email, password) VALUES ($1, $2)'
+  await sql(query, [email, password]);
 });
 
 app.post('/producti', async (req, res) => {
