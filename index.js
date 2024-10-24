@@ -71,13 +71,6 @@ app.post('/login', async (req, res) => {
   const password = req.body.contra;
 });
 
-app.post('/regist', async (req, res) => {
-  const name = req.body.email;
-  const password = req.body.password;
-
-
-});
-
 app.post('/registrar', async (req, res) => {
   const email = req.body.email;
   const password = req.body.password;
