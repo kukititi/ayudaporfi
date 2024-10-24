@@ -61,7 +61,7 @@ app.get('/LogAdmin', (req, res) => {
   res.render('LogAdmin');
 });
 
-app.get('/products', (req, res) => {
+app.get('/products', async (req, res) => {
   const lista = await sql('SELECT * FROM products');
   res.render('products' { lista });
 });
