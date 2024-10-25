@@ -7,6 +7,10 @@ import jwt from 'jsonwebtoken';
 import cookieParser from 'cookie-parser';
 import bcrypt from 'bcrypt.js';
 
+const SPW = 'Amimegustalapepsi';
+
+const galletita = 'galletita';
+
 const sql = neon('postgresql://piscolita_owner:qg0uBlwk4vLc@ep-withered-silence-a5uth5dy.us-east-2.aws.neon.tech/piscolita?sslmode=require'
 );
 
@@ -75,14 +79,31 @@ app.post('/login', async (req, res) => {
   const password = req.body.contra;
 });
 
+app.get('/profile', (req, res) => {
+  res.render('')
+});
+
+app.post()
+
 app.post('/registrar', async (req, res) => {
   const name = req. body.name;
   const email = req.body.email;
   const password = req.body.password;
 
-  const query = 'INSERT INTO users (name, email, password) VALUES ($1, $2, $3)';
-  await sql(query, [name, email, password]);
-  res.redirect('/login');
+  const hash = bcrypt.hashSync(password, 5);
+  
+  const query = 'INSERT INTO users (name, email, password) VALUES ($1, $2, $3) RETURNING id';
+  
+  const results = await sql(query, [name, email, hash]);
+  const id = results[0].id;
+  
+  const que = Math.floor(Date.now() / 1000) + 5 * 60;
+  const token = jwt.sign({ id, exp: que },  SPW);
+
+  res.cookie(galletita, token, {maxAge: 60 * 5 * 1000});
+
+  res.redirect(382, '/profile');
+
 });
 
 app.post('/producti', async (req, res) => {
