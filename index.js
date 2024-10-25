@@ -19,6 +19,17 @@ const app = express();
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
+const authMiddleweare = (req, res, next) => {
+  const token = req.cookies[galletita];
+
+  try{
+    req.user = jnt.verify(token, SPW);
+    networkInterfaces();
+  } catch(e) {
+    res.render('/unauthorised');
+  }
+};
+
 app.use(express.static(path.join(__dirname, "/public")));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
@@ -79,8 +90,8 @@ app.post('/login', async (req, res) => {
   const password = req.body.contra;
 });
 
-app.get('/profile', (req, res) => {
-  res.render('')
+app.get('/profile', authMiddleweare, (req, res) => {
+  
 });
 
 app.post()
