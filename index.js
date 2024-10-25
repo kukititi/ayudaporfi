@@ -91,7 +91,12 @@ app.post('/login', async (req, res) => {
 });
 
 app.get('/profile', authMiddleweare, (req, res) => {
-  
+  const userId = req.user.id;
+  const query = 'SELECT name, email FROM users WHERE id = $1',
+  const results = await sql(query, [userId]);
+  const user = results[0];
+
+  res.render('profile', user);
 });
 
 app.post('/registrar', async (req, res) => {
