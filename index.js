@@ -9,6 +9,8 @@ const sql = neon('postgresql://piscolita_owner:qg0uBlwk4vLc@ep-withered-silence-
 
 const app = express();
 
+const PORT = process.env.PORT || 3000;
+
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
@@ -16,9 +18,22 @@ app.use(express.static(path.join(__dirname, "/public")));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
-app.engine('handlebars', engine());
+app.engine('handlebars', exphbs({ defaultLayout: 'main' }));
 app.set('view engine', 'handlebars');
 app.set('views', './views');
+app.use(express.static('images'));
+
+app.get("/static", (req, res) => {
+  res.render("static");
+});
+
+app.get("/dynamic", (req, res) => {
+  imageList = [];
+  imageList.push({ src: "icons/flask.png", name: "flask" });
+  imageList.push({ src: "icons/javascript.png", name: "javascript" });
+  imageList.push({ src: "icons/react.png", name: "react" });
+  res.render("dynamic", { imageList: imageList });
+});
 
 app.get("/", async (req, res) => {
   const products = await sql('SELECT * FROM products');

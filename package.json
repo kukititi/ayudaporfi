@@ -1,5 +1,5 @@
 {
-  "name": "node-starter",
+  "name": "starter",
   "private": true,
   "type": "module",
   "scripts": {
@@ -7,7 +7,12 @@
   },
   "dependencies": {
     "@neondatabase/serverless": "^0.9.5",
-    "express": "^4.21.0",
+    "express": "^4.21.1",
     "express-handlebars": "^8.0.1"
-  }
+  },
+  "description": "[Edit in StackBlitz next generation editor ⚡️](https://stackblitz.com/~/github.com/kukititi/ayudaporfi)",
+  "version": "1.0.0",
+  "main": "index.js",
+  "author": "",
+  "license": "ISC"
 }
