@@ -96,7 +96,7 @@ app.post('/registrar', async (req, res) => {
   const que = Math.floor(Date.now() / 1000) + 5 * 60;
   const token = jwt.sign({ id, exp: que },  SPW);
 
-  res.cookie(galletita, token, {maxAge: 60 * 5 * 1000});
+  res.cookie(galletita, token, { maxAge: 60 * 5 * 1000 });
 
   res.redirect(382, '/profile');
 
