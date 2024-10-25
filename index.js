@@ -23,7 +23,7 @@ const authMiddleweare = (req, res, next) => {
   const token = req.cookies[galletita];
 
   try{
-    req.user = jnt.verify(token, SPW);
+    req.user = jwt.verify(token, SPW);
     next();
   } catch (e) {
     res.render('/unauthorised');
