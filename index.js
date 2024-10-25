@@ -19,16 +19,7 @@ const app = express();
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-const authMiddleweare = (req, res, next) => {
-  const token = req.cookies[galletita];
 
-  try{
-    req.user = jwt.verify(token, SPW);
-    next();
-  } catch (e) {
-    res.render('/unauthorised');
-  }
-};
 
 app.use(express.static(path.join(__dirname, "/public")));
 app.use(express.json());
@@ -110,7 +101,16 @@ app.post('/registrar', async (req, res) => {
   res.redirect(382, '/profile');
 
 });
+const authMiddleweare = (req, res, next) => {
+  const token = req.cookies[galletita];
 
+  try{
+    req.user = jwt.verify(token, SPW);
+    next();
+  } catch (e) {
+    res.render('/unauthorised');
+  }
+};
 app.get('/profile', authMiddleweare, async (req, res) => {
   const userId = req.user.id;
   const query = 'SELECT name, email FROM users WHERE id = $1';
