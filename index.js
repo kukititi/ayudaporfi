@@ -108,7 +108,7 @@ const authMiddleweare = (req, res, next) => {
     req.user = jwt.verify(token, SPW);
     next();
   } catch (e) {
-    res.render('/unauthorised');
+    res.render('unauthorised');
   }
 };
 app.get('/profile', authMiddleweare, async (req, res) => {
