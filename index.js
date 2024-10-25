@@ -5,7 +5,7 @@ import path from "path";
 import { fileURLToPath } from "url";
 import jwt from 'jsonwebtoken';
 import cookieParser from 'cookie-parser';
-import bcrypt from 'bcrypt.js';
+import bcrypt from 'bcryptjs';
 
 const SPW = 'Amimegustalapepsi';
 
