@@ -24,8 +24,8 @@ const authMiddleweare = (req, res, next) => {
 
   try{
     req.user = jnt.verify(token, SPW);
-    networkInterfaces();
-  } catch(e) {
+    next();
+  } catch (e) {
     res.render('/unauthorised');
   }
 };
@@ -93,8 +93,6 @@ app.post('/login', async (req, res) => {
 app.get('/profile', authMiddleweare, (req, res) => {
   
 });
-
-app.post()
 
 app.post('/registrar', async (req, res) => {
   const name = req. body.name;
