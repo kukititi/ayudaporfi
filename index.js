@@ -90,9 +90,9 @@ app.post('/login', async (req, res) => {
   const password = req.body.contra;
 });
 
-app.get('/profile', authMiddleweare, (req, res) => {
+app.get('/profile', authMiddleweare, async (req, res) => {
   const userId = req.user.id;
-  const query = 'SELECT name, email FROM users WHERE id = $1',
+  const query = 'SELECT name, email FROM users WHERE id = $1';
   const results = await sql(query, [userId]);
   const user = results[0];
 
