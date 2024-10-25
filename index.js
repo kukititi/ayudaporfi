@@ -98,7 +98,7 @@ app.post('/registrar', async (req, res) => {
 
   res.cookie(galletita, token, {maxAge: 60 * 5 * 1000});
 
-  res.redirect('/profile', 382);
+  res.redirect(382, '/profile');
 
 });
 const authMiddleweare = (req, res, next) => {
