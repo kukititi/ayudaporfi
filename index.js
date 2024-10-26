@@ -62,7 +62,8 @@ app.get('/Replicas', async (req, res) => {
 });
 
 app.get('/Login', (req, res) => {
-  res.render('login');
+  const error = req.query.error;
+  res.render('login', { error });
 });
 
 app.get('/Registro', async (req, res) => {
@@ -80,8 +81,34 @@ app.get('/products', async (req, res) => {
 });
 
 app.post('/login', async (req, res) => {
-  const name = req.body.name;
+  const email = req.body.email;
   const password = req.body.contra;
+
+  const query = 'SELECT id, password FROM users WHERE email = $1';
+  const results = await sql(query, [email]);
+
+  if (results === 0){
+    res.redirect(302, 'Login?error=unauthorised');
+    return;
+  }
+
+  const id = results[0].id;
+  const hash = results[0].password;
+
+  if(bcrypt.compareSync(password, hash)){
+
+    const FMFN = Math.floor(Date.now() /1000) + 5 * 60;
+    const token = jwt(
+      { id, exp: FMFN}, SPW
+    );
+
+    res.cookie(galletita, token, {maxAge: 60 * 5 * 1000});
+    res.redirect(302, '/profile');
+    return;
+  }
+
+  res.redirect(302, 'Login?error=unauthorised');
+
 });
 
 app.post('/registrar', async (req, res) => {
