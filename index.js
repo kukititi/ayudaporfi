@@ -8,8 +8,6 @@ import cookieParser from 'cookie-parser';
 import bcrypt from 'bcryptjs';
 
 
-
-
 const SPW = 'Amimegustalapepsi';
 
 const galletita = 'galletita';

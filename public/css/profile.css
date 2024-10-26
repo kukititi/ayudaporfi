@@ -8,6 +8,7 @@
 }
 
 .project-title {
+  display: flex;
   font-weight: 500;
   font-size: 1.5em;
   overflow: hidden;
