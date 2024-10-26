@@ -87,7 +87,7 @@ app.post('/login', async (req, res) => {
   const query = 'SELECT id, password FROM users WHERE email = $1';
   const results = await sql(query, [email]);
 
-  if (results === 0){
+  if (results.length === 0){
     res.redirect(302, 'Login?error=unauthorised');
     return;
   }
@@ -98,7 +98,7 @@ app.post('/login', async (req, res) => {
   if(bcrypt.compareSync(password, hash)){
 
     const FMFN = Math.floor(Date.now() /1000) + 5 * 60;
-    const token = jwt(
+    const token = jwt.sign(
       { id, exp: FMFN}, SPW
     );
 
