@@ -41,7 +41,7 @@ app.get("/", async (req, res) => {
 });
 
 app.get('/Accesorios', (req, res) => {
-res.render('accs');
+  res.render('accs');
 });
 
 app.get('/Equipo', (req, res) => {
@@ -51,8 +51,6 @@ app.get('/Equipo', (req, res) => {
 app.get('/Repuestos', (req, res) =>{
   res.render('repu');
 });
-
-
 
 app.get('/Replicas', async (req, res) => {
   const lista = await sql('SELECT * FROM products');
@@ -85,7 +83,7 @@ app.post('/login', async (req, res) => {
   const query = 'SELECT id, password FROM users WHERE email = $1';
   const results = await sql(query, [email]);
 
-  if (results.length === 0){
+  if (results.length === 0) {
     res.redirect(302, 'Login?error=unauthorised');
     return;
   }
@@ -93,20 +91,19 @@ app.post('/login', async (req, res) => {
   const id = results[0].id;
   const hash = results[0].password;
 
-  if(bcrypt.compareSync(password, hash)){
-
-    const FMFN = Math.floor(Date.now() /1000) + 5 * 60;
+  if (bcrypt.compareSync(password, hash)) {
+    const FMFN = Math.floor(Date.now() / 1000) + 5 * 60;
     const token = jwt.sign(
-      { id, exp: FMFN}, SPW
+      { id, exp: FMFN }, SPW
     );
 
-    res.cookie(galletita, token, {maxAge: 60 * 5 * 1000});
+    res.cookie(galletita, token, { maxAge: 60 * 5 * 1000 });
+    res.cookie('userId', id);  // Establecer userId en la cookie
     res.redirect(302, '/profile');
     return;
   }
 
   res.redirect(302, 'Login?error=unauthorised');
-
 });
 
 app.post('/registrar', async (req, res) => {
@@ -122,23 +119,25 @@ app.post('/registrar', async (req, res) => {
   const id = results[0].id;
   
   const que = Math.floor(Date.now() / 1000) + 5 * 60;
-  const token = jwt.sign({ id, exp: que },  SPW);
+  const token = jwt.sign({ id, exp: que }, SPW);
 
   res.cookie(galletita, token, { maxAge: 60 * 5 * 1000 });
+  res.cookie('userId', id);  // Establecer userId en la cookie
 
   res.redirect(302, '/profile');
-
 });
+
 const authMiddleweare = (req, res, next) => {
   const token = req.cookies[galletita];
 
-  try{
+  try {
     req.user = jwt.verify(token, SPW);
     next();
   } catch (e) {
     res.render('unauthorised');
   }
 };
+
 app.get('/profile', authMiddleweare, async (req, res) => {
   const userId = req.user.id;
   const query = 'SELECT name, email FROM users WHERE id = $1';
@@ -162,41 +161,51 @@ app.post('/producti', async (req, res) => {
   res.redirect('/products');
 });
 
+// Rutas para manejar el carrito
 app.get('/Carrito', async (req, res) => {
-  const userId = req.cookies.userId;  // Asegúrate de que el ID de usuario esté almacenado en cookies o sesión
+  const userId = req.cookies.userId;
+  console.log('User ID:', userId);
+
+  if (!userId) {
+    res.status(400).send('User ID is missing');
+    return;
+  }
 
   const query = `
       SELECT c.id, p.name, p.price, c.quantiti as quantity
       FROM cart c
       JOIN products p ON c.prod_id = p.id
-      WHERE c.us_id = $1
+      WHERE c.us_id = $1::text
   `;
 
   try {
-      const cart = await sql(query, [userId]);
-      res.render('cart', { cart });
+    const cart = await sql(query, [userId.toString()]);
+    res.render('cart', { cart });
   } catch (error) {
-      console.error('Error al obtener el carrito:', error);
-      res.status(500).send('Error al obtener el carrito');
+    console.error('Error al obtener el carrito:', error);
+    res.status(500).send('Error al obtener el carrito');
   }
 });
 
 app.post('/carrito/add', async (req, res) => {
   const { prod_id, quantity } = req.body;
-  const userId = req.cookies.userId;  // Asegúrate de que el ID de usuario esté almacenado en cookies o sesión
+  const userId = req.cookies.userId;
+  console.log('User ID:', userId);
 
-  // Verificar si el producto ya está en el carrito
-  const querySelect = 'SELECT * FROM cart WHERE us_id = $1 AND prod_id = $2';
-  const results = await sql(querySelect, [userId, prod_id]);
+  if (!userId) {
+    res.status(400).send('Necesitas logearte para tener un carrito :P');
+    return;
+  }
+
+  const querySelect = 'SELECT * FROM cart WHERE us_id = $1::text AND prod_id = $2';
+  const results = await sql(querySelect, [userId.toString(), prod_id]);
 
   if (results.length > 0) {
-      // Si el producto ya está en el carrito, actualizar la cantidad
-      const queryUpdate = 'UPDATE cart SET quantiti = quantiti + $1 WHERE us_id = $2 AND prod_id = $3';
-      await sql(queryUpdate, [quantity, userId, prod_id]);
+    const queryUpdate = 'UPDATE cart SET quantiti = quantiti + $1 WHERE us_id = $2::text AND prod_id = $3';
+    await sql(queryUpdate, [quantity, userId.toString(), prod_id]);
   } else {
-      // Si el producto no está en el carrito, agregarlo
-      const queryInsert = 'INSERT INTO cart (us_id, prod_id, quantiti) VALUES ($1, $2, $3)';
-      await sql(queryInsert, [userId, prod_id, quantity]);
+    const queryInsert = 'INSERT INTO cart (us_id, prod_id, quantiti) VALUES ($1::text, $2, $3)';
+    await sql(queryInsert, [userId.toString(), prod_id, quantity]);
   }
 
   res.redirect('/Carrito');
@@ -208,15 +217,12 @@ app.post('/carrito/remove', async (req, res) => {
   const query = 'DELETE FROM cart WHERE id = $1';
 
   try {
-      await sql(query, [id]);
-      res.redirect('/Carrito');
+    await sql(query, [id]);
+    res.redirect('/Carrito');
   } catch (error) {
-      console.error('Error al eliminar el producto del carrito:', error);
-      res.status(500).send('Error al eliminar el producto del carrito');
+    console.error('Error al eliminar el producto del carrito:', error);
+    res.status(500).send('Error al eliminar el producto del carrito');
   }
 });
 
-
-
 app.listen(3000, () => console.log('tuki'));
-
