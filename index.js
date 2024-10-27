@@ -7,27 +7,25 @@ import jwt from 'jsonwebtoken';
 import cookieParser from 'cookie-parser';
 import bcrypt from 'bcryptjs';
 
-
 const SPW = 'Amimegustalapepsi';
-
 const galletita = 'galletita';
-
-const sql = neon('postgresql://piscolita_owner:qg0uBlwk4vLc@ep-withered-silence-a5uth5dy.us-east-2.aws.neon.tech/piscolita?sslmode=require'
-);
+const sql = neon('postgresql://piscolita_owner:qg0uBlwk4vLc@ep-withered-silence-a5uth5dy.us-east-2.aws.neon.tech/piscolita?sslmode=require');
 
 const app = express();
-
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
-
-
 
 app.use(express.static(path.join(__dirname, "/public")));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 
-app.engine('handlebars', engine());
+app.engine('handlebars', engine({
+    helpers: {
+        multiply: (a, b) => a * b,
+        totalPrice: (cart) => cart.reduce((acc, item) => acc + (item.price * item.quantity), 0)
+    }
+}));
 app.set('view engine', 'handlebars');
 app.set('views', './views');
 
@@ -54,9 +52,7 @@ app.get('/Repuestos', (req, res) =>{
   res.render('repu');
 });
 
-app.get('/Carrito', (req, res) => {
-  res.render('cart');
-});
+
 
 app.get('/Replicas', async (req, res) => {
   const lista = await sql('SELECT * FROM products');
@@ -165,6 +161,62 @@ app.post('/producti', async (req, res) => {
 
   res.redirect('/products');
 });
+
+app.get('/Carrito', async (req, res) => {
+  const userId = req.cookies.userId;  // Asegúrate de que el ID de usuario esté almacenado en cookies o sesión
+
+  const query = `
+      SELECT c.id, p.name, p.price, c.quantiti as quantity
+      FROM cart c
+      JOIN products p ON c.prod_id = p.id
+      WHERE c.us_id = $1
+  `;
+
+  try {
+      const cart = await sql(query, [userId]);
+      res.render('cart', { cart });
+  } catch (error) {
+      console.error('Error al obtener el carrito:', error);
+      res.status(500).send('Error al obtener el carrito');
+  }
+});
+
+app.post('/carrito/add', async (req, res) => {
+  const { prod_id, quantity } = req.body;
+  const userId = req.cookies.userId;  // Asegúrate de que el ID de usuario esté almacenado en cookies o sesión
+
+  // Verificar si el producto ya está en el carrito
+  const querySelect = 'SELECT * FROM cart WHERE us_id = $1 AND prod_id = $2';
+  const results = await sql(querySelect, [userId, prod_id]);
+
+  if (results.length > 0) {
+      // Si el producto ya está en el carrito, actualizar la cantidad
+      const queryUpdate = 'UPDATE cart SET quantiti = quantiti + $1 WHERE us_id = $2 AND prod_id = $3';
+      await sql(queryUpdate, [quantity, userId, prod_id]);
+  } else {
+      // Si el producto no está en el carrito, agregarlo
+      const queryInsert = 'INSERT INTO cart (us_id, prod_id, quantiti) VALUES ($1, $2, $3)';
+      await sql(queryInsert, [userId, prod_id, quantity]);
+  }
+
+  res.redirect('/Carrito');
+});
+
+
+app.post('/carrito/remove', async (req, res) => {
+  const { id } = req.body;
+  const query = 'DELETE FROM cart WHERE id = $1';
+
+  try {
+      await sql(query, [id]);
+      res.redirect('/Carrito');
+  } catch (error) {
+      console.error('Error al eliminar el producto del carrito:', error);
+      res.status(500).send('Error al eliminar el producto del carrito');
+  }
+});
+
+
 
 app.listen(3000, () => console.log('tuki'));
 
