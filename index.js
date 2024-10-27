@@ -54,6 +54,10 @@ app.get('/Repuestos', (req, res) =>{
   res.render('repu');
 });
 
+app.get('/Carrito', (req, res) => {
+  res.render('cart');
+});
+
 app.get('/Replicas', async (req, res) => {
   const lista = await sql('SELECT * FROM products');
   res.render('repli', { lista });
@@ -163,3 +167,4 @@ app.post('/producti', async (req, res) => {
 });
 
 app.listen(3000, () => console.log('tuki'));
+
