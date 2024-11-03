@@ -1,76 +1,94 @@
-.project-info {
-  padding: 100px 40px;
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-  position: relative;
-  top: -50px;
+/* CSS adaptado para responsividad y espacio entre elementos */
+
+/* Contenedor principal */
+.wallet-container {
+    max-width: 800px;
+    margin: auto;
+    margin-top: 20px;
+    padding: 20px;
 }
 
-.project-title {
-  display: flex;
-  font-weight: 500;
-  font-size: 1.5em;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  color: black;
+/* Cabecera de la tarjeta */
+.card-header {
+    background-color: #e9ecef;
+    border-bottom: 1px solid #dee2e6;
 }
 
-.lighter {
-  font-size: 0.9em;
+/* Contenedor de imagen de perfil */
+.profile-image-container {
+    flex: 1 1 auto;
+    max-width: 150px;
 }
 
-.flex {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+/* Imagen de perfil */
+.profile-image-container img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 50%;
 }
 
-.tag {
-  font-weight: lighter;
-  color: grey;
+/* Contenedor de la tarjeta virtual */
+.virtual-card {
+    flex: 2 1 300px;
+    background-color: #e9ecef;
+    border-radius: 10px;
+    padding: 15px;
 }
 
-/*DELETE THIS TWO LINE*/
-.delete {
-  background-color: #b2b2fd;
+/* Título de la tarjeta virtual */
+.virtual-card-header h6 {
+    font-size: 1.2rem;
+    font-weight: bold;
 }
 
-.card-img div {
-  width: 90%;
-}
-/*IF USING IMAGES*/
-
-.card {
-  background-color: white;
-  color: black;
-  width: 300px;
-  max-height: 330px;
-  border-radius: 8px;
-  box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px,
-    rgba(0, 0, 0, 0.3) 0px 30px 60px -30px;
+/* Estilo de los párrafos de la tarjeta */
+.virtual-card-body p {
+    margin: 0;
+    font-weight: 500;
 }
 
-.card-img {
-  position: relative;
-  top: -20px;
-  height: 100px;
-  display: flex;
-  justify-content: center;
+/* Contenedor de saldo */
+.balance-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 10px;
+    gap: 20px; /* Espacio entre email y saldo */
 }
 
-/* Change the .card-img div to .card-img img to use img*/
-.card-img a,
-.card-img div {
-  height: 150px;
-  width: 90%;
-  /* Change this width here to change the width of the color/image */
-  object-fit: cover;
-  border-radius: 8px;
-  box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+/* Botón de recarga */
+.btn-recharge {
+    background-color: #007bff;
+    color: white;
+    border: none;
 }
 
-.card-imgs {
-  transition: all 0.5s;
+/* Ajuste para el cuerpo de la tarjeta */
+.card-body {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+/* Responsividad para pantallas pequeñas */
+@media (max-width: 576px) {
+    .profile-image-container {
+        max-width: 100px;
+        margin-bottom: 10px;
+    }
+    
+    .virtual-card {
+        flex: 1 1 100%;
+        text-align: center;
+    }
+
+    .card-body {
+        flex-direction: column;
+    }
+
+    .balance-container {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px; /* Reduce el espacio entre email y saldo en pantallas pequeñas */
+    }
 }

@@ -7,59 +7,26 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="/css/estiloproductos.css">
 </head>
-{{> navbar}}
-
-        <div class="row">
-            <aside class="col-md-3">
-                <div class="card">
-                    <div class="card-header">
-                        REPUESTOS
-                    </div>
-                    <div class="card-body">
-                        <h5 class="card-title">Filtrar por</h5>
-                        <h6>Disponibilidad</h6>
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" id="inStock">
-                            <label class="form-check-label" for="inStock">En stock (30)</label>
-                        </div>
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" id="outOfStock">
-                            <label class="form-check-label" for="outOfStock">No disponible (66)</label>
-                        </div>
-
-                        <h6 class="mt-3">Marca</h6>
-                        <ul class="list-unstyled">
-                            <li><input type="checkbox"> APS (2)</li>
-                            <li><input type="checkbox"> Airsoft Innovations (1)</li>
-                            <li><input type="checkbox"> Alpha Series (3)</li>
-                            <li><input type="checkbox"> Baofeng (1)</li>
-                            <li><input type="checkbox"> Bolt Airsoft (1)</li>
-
-                        </ul>
-
-                        <h6 class="mt-3">Precio</h6>
-                        <input type="range" class="form-range" min="1190" max="61900" id="priceRange">
-                    </div>
-                </div>
-            </aside>
-
-
+{{> navbar isAuthenticated=isAuthenticated}}
             <section class="col-md-9">
                 <h3>REPUESTOS</h3>
                 <img src="/Imagenes/BANNER REPUESTOS.png" alt="Accesorios" class="img-fluid mb-4">
-
-                <div class="d-flex justify-content-between align-items-center mb-3">
-                    
-                    <div>
-                        <label for="sortBy" class="form-label me-2">Ordenar por:</label>
-                        <select id="sortBy" class="form-select w-auto">
-                            <option selected>Relevancia</option>
-                            <option value="priceAsc">Precio: de menor a mayor</option>
-                            <option value="priceDesc">Precio: de mayor a menor</option>
-                        </select>
+{{#each lista}}
+                <div class="row">
+                    <div class="col-md-4 mb-4">
+                        <div class="card">
+                            <img src="{{this.foto}}" class="card-img-top" alt="SET MOTOR GRIP C/TAPA M4 BK">
+                            <div class="card-body">
+                                <h5 class="card-title">{{this.name}}</h5>
+                                <p class="card-text">${{this.price}}</p>
+                                <button onclick="/carrito/add" class="alert-button">agregar al carrito</button>
+                                <div class="card__description">{{this.descr}}</div>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
+{{/each}}
                 <div class="row">
                     <div class="col-md-4 mb-4">
                         <div class="card">
@@ -134,3 +101,6 @@
                 </div>
             </section>
         </div>
+
+
+{{> footer}}

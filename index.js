@@ -14,6 +14,24 @@ const sql = neon('postgresql://piscolita_owner:qg0uBlwk4vLc@ep-withered-silence-
 const app = express();
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
+const checkAuthentication = (req) => {
+  const token = req.cookies[galletita];
+  try {
+    jwt.verify(token, SPW);
+    return true;
+  } catch (e) {
+    return false;
+  }
+};
+const authMiddleware = (req, res, next) => {
+  const token = req.cookies[galletita];
+  try {
+    req.user = jwt.verify(token, SPW);
+    next();
+  } catch (e) {
+    res.render('unauthorised');
+  }
+};
 
 app.use(express.static(path.join(__dirname, "/public")));
 app.use(express.json());
@@ -30,50 +48,67 @@ app.set('view engine', 'handlebars');
 app.set('views', './views');
 
 app.get("/", async (req, res) => {
-  const products = await sql('SELECT * FROM products');
+  const isAuthenticated = checkAuthentication(req);
+  const products = await sql('SELECT * FROM products WHERE destacado = true');
   const users = await sql('SELECT * FROM users WHERE id = 1');
   const user = users[0];
   res.render("home", {
     products,
     user,
     title: "Home",
+    isAuthenticated,
   });
 });
 
-app.get('/Accesorios', (req, res) => {
-  res.render('accs');
+app.get('/Accesorios', async (req, res) => {
+  const isAuthenticated = checkAuthentication(req);
+  const lista = await sql('SELECT * FROM products WHERE categ = \'ACCESORIOS\'');
+  res.render('accs', { lista, isAuthenticated });
 });
 
-app.get('/Equipo', (req, res) => {
-  res.render('equi');
+app.get('/Equipo', async (req, res) => {
+  const isAuthenticated = checkAuthentication(req);
+  const lista = await sql('SELECT * FROM products WHERE categ = \'EQUIPO\'');
+  res.render('equi', { lista, isAuthenticated });
 });
 
-app.get('/Repuestos', (req, res) =>{
-  res.render('repu');
+app.get('/Repuestos', async (req, res) =>{
+  const isAuthenticated = checkAuthentication(req);
+  const lista = await sql('SELECT * FROM products WHERE categ = \'REPUESTO\'');
+  res.render('repu', { lista, isAuthenticated });
 });
 
 app.get('/Replicas', async (req, res) => {
-  const lista = await sql('SELECT * FROM products');
-  res.render('repli', { lista });
+  const isAuthenticated = checkAuthentication(req);
+  const lista = await sql('SELECT * FROM products WHERE categ = \'REPLICAS\'');
+  res.render('repli', { lista, isAuthenticated });
 });
 
 app.get('/Login', (req, res) => {
   const error = req.query.error;
-  res.render('login', { error });
+  const isAuthenticated = checkAuthentication(req);
+
+  res.render('login', {
+    error,
+    isAuthenticated, 
+});
 });
 
 app.get('/Registro', async (req, res) => {
+  const isAuthenticated = checkAuthentication(req);
   const lista = await sql('SELECT * FROM users');
-  res.render('regist', { lista });
+  res.render('regist', { lista, isAuthenticated });
 });
 
 app.get('/LogAdmin', (req, res) => {
+
   res.render('LogAdmin');
 });
 
 app.get('/products', async (req, res) => {
   const lista = await sql('SELECT * FROM products');
-  res.render('products', { lista });
+  const isAuthenticated = checkAuthentication(req);
+  res.render('products', { lista, isAuthenticated });
 });
 
 
@@ -129,24 +164,21 @@ app.post('/registrar', async (req, res) => {
   res.redirect(302, '/profile');
 });
 
-const authMiddleweare = (req, res, next) => {
-  const token = req.cookies[galletita];
-
+app.get('/profile', authMiddleware, async (req, res) => {
+  const isAuthenticated = checkAuthentication(req);
   try {
-    req.user = jwt.verify(token, SPW);
-    next();
-  } catch (e) {
-    res.render('unauthorised');
+    const userId = req.user.id;
+    const query = 'SELECT name, email, wallet FROM users WHERE id = $1';
+    const results = await sql(query, [userId]);
+    if (results.length === 0) {
+      return res.status(404).send('Usuario no encontrado');
+    }
+    const user = results[0];
+    res.render('profile', { user, isAuthenticated });
+  } catch (error) {
+    console.error('Error al obtener el perfil:', error);
+    res.status(500).send('Error interno del servidor');
   }
-};
-
-app.get('/profile', authMiddleweare, async (req, res) => {
-  const userId = req.user.id;
-  const query = 'SELECT name, email FROM users WHERE id = $1';
-  const results = await sql(query, [userId]);
-  const user = results[0];
-
-  res.render('profile', user);
 });
 
 app.post('/producti', async (req, res) => {
@@ -165,6 +197,7 @@ app.post('/producti', async (req, res) => {
 
 // Rutas para manejar el carrito
 app.get('/Carrito', async (req, res) => {
+  const isAuthenticated = true;
   const userId = req.cookies.userId;
   console.log('User ID:', userId);
 
@@ -182,7 +215,7 @@ app.get('/Carrito', async (req, res) => {
 
   try {
     const cart = await sql(query, [userId.toString()]);
-    res.render('cart', { cart });
+    res.render('cart', { cart, isAuthenticated });
   } catch (error) {
     console.error('Error al obtener el carrito:', error);
     res.status(500).send('Error al obtener el carrito');
@@ -190,29 +223,36 @@ app.get('/Carrito', async (req, res) => {
 });
 
 app.post('/carrito/add', async (req, res) => {
-  const { prod_id, quantity } = req.body;
+  const prod_id = parseInt(req.body.prod_id, 10); // Asegúrate de que sea un número
   const userId = req.cookies.userId;
+  const quantiti = parseInt(req.body.quantiti, 10); // Asegúrate de que sea un número
+
   console.log('User ID:', userId);
+  console.log('Product ID:', prod_id);
+  console.log('Quantity:', quantiti);
 
   if (!userId) {
-    res.status(400).send('Necesitas logearte para tener un carrito :P');
+    res.status(400).send('Necesitas logearte para agregar cosas a un carrito :P');
     return;
   }
 
-  const querySelect = 'SELECT * FROM cart WHERE us_id = $1 AND prod_id = $2';
-  const results = await sql(querySelect, [userId.toString(), prod_id]);
+  try {
+    const querySelect = 'SELECT * FROM cart WHERE us_id = $1 AND prod_id = $2';
+    const results = await sql(querySelect, [userId, prod_id]);
 
-  if (results.length > 0) {
-    const queryUpdate = 'UPDATE cart SET quantiti = quantiti + $1 WHERE us_id = $2 AND prod_id = $3';
-    await sql(queryUpdate, [quantity, userId.toString(), prod_id]);
-  } else {
-    const queryInsert = 'INSERT INTO cart (us_id, prod_id, quantiti) VALUES ($1, $2, $3)';
-    await sql(queryInsert, [userId.toString(), prod_id, quantity]);
+    if (results.length > 0) {
+      const queryUpdate = 'UPDATE cart SET quantiti = quantiti + $1 WHERE us_id = $2 AND prod_id = $3';
+      await sql(queryUpdate, [quantiti, userId, prod_id]);
+    } else {
+      const queryInsert = 'INSERT INTO cart (quantiti, us_id, prod_id) VALUES ($1, $2, $3)';
+      await sql(queryInsert, [quantiti, userId, prod_id]);
+    }
+    res.redirect('/Carrito');
+  } catch (error) {
+    console.error('Error al agregar al carrito:', error);
+    res.status(500).send('Error al procesar la solicitud');
   }
-
-  res.redirect('/Carrito');
 });
-
 
 app.post('/carrito/remove', async (req, res) => {
   const { id } = req.body;
@@ -226,5 +266,32 @@ app.post('/carrito/remove', async (req, res) => {
     res.status(500).send('Error al eliminar el producto del carrito');
   }
 });
+
+app.post('/recargar-saldo', authMiddleware, async (req, res) => {
+  const userId = req.user.id;
+  const { amount } = req.body;
+
+  if (!amount || isNaN(amount) || amount <= 0) {
+      return res.json({ success: false, message: 'Monto inválido' });
+  }
+
+  try {
+      // Actualizar el saldo del usuario en la base de datos
+      const updateQuery = 'UPDATE users SET wallet = wallet + $1 WHERE id = $2 RETURNING wallet';
+      const results = await sql(updateQuery, [amount, userId]);
+
+      if (results.length > 0) {
+          const newBalance = results[0].wallet;
+          res.json({ success: true, newBalance });
+      } else {
+          res.json({ success: false, message: 'Usuario no encontrado' });
+      }
+  } catch (error) {
+      console.error('Error al recargar saldo:', error);
+      res.status(500).json({ success: false, message: 'Error al recargar saldo' });
+  }
+});
+
+
 
 app.listen(3000, () => console.log('tuki'));
