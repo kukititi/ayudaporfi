@@ -7,128 +7,34 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="/css/estiloproductos.css">
 </head>
-        <div class="row">
-            <aside class="col-md-3">
-                <div class="card">
-                    <div class="card-header">
-                        REPUESTOS
-                    </div>
-                    <div class="card-body">
-                        <h5 class="card-title">Filtrar por</h5>
-                        <h6>Disponibilidad</h6>
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" id="inStock">
-                            <label class="form-check-label" for="inStock">En stock (30)</label>
-                        </div>
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" id="outOfStock">
-                            <label class="form-check-label" for="outOfStock">No disponible (66)</label>
-                        </div>
-
-                        <h6 class="mt-3">Marca</h6>
-                        <ul class="list-unstyled">
-                            <li><input type="checkbox"> APS (2)</li>
-                            <li><input type="checkbox"> Airsoft Innovations (1)</li>
-                            <li><input type="checkbox"> Alpha Series (3)</li>
-                            <li><input type="checkbox"> Baofeng (1)</li>
-                            <li><input type="checkbox"> Bolt Airsoft (1)</li>
-
-                        </ul>
-
-                        <h6 class="mt-3">Precio</h6>
-                        <input type="range" class="form-range" min="1190" max="61900" id="priceRange">
-                    </div>
-                </div>
-            </aside>
-
-
-            <section class="col-md-9">
-                <h3>REPUESTOS</h3>
+{{> navbar isAuthenticated=isAuthenticated}}
+<div class="d-flex justify-content-center align-items-center mb-3">
+    <section class="col-md-9 text-center">
+        <h3>REPUESTOS</h3>
                 <img src="/Imagenes/BANNER REPUESTOS.png" alt="Accesorios" class="img-fluid mb-4">
-
-                <div class="d-flex justify-content-between align-items-center mb-3">
-                    
-                    <div>
-                        <label for="sortBy" class="form-label me-2">Ordenar por:</label>
-                        <select id="sortBy" class="form-select w-auto">
-                            <option selected>Relevancia</option>
-                            <option value="priceAsc">Precio: de menor a mayor</option>
-                            <option value="priceDesc">Precio: de mayor a menor</option>
-                        </select>
-                    </div>
-                </div>
+</section>
+</div>
 
                 <div class="row">
+
+          {{#each lista}}
                     <div class="col-md-4 mb-4">
                         <div class="card">
-                            <img src="/Imagenes/REPUESTOS 1.jpg" class="card-img-top" alt="SET MOTOR GRIP C/TAPA M4 BK">
+                            <img src="{{this.foto}}" class="card-img-top" alt="SET MOTOR GRIP C/TAPA M4 BK">
                             <div class="card-body">
-                                <h5 class="card-title">SET MOTOR GRIP C/TAPA M4 BK</h5>
-                                <p class="card-text">$9.990 </p>
-                                <button class="alert-button">agregar al carrito</button>
-                                <div class="card__description">
-
-                                    <p>Set Motor Grip c/Tapa M4<p>
-
-                                    <p>Incluye: Motor Grip, Tapa Motor y Set de Tornillos<p>
-
-                                    <p>Color: BK<p>
-                                </div>
+                                <h5 class="card-title">{{this.name}}</h5>
+                                <p class="card-text">${{this.price}}</p>
+                                <form action="/carrito/add" method="post">
+                                <input type="hidden" name="prod_id" value="{{this.id}}"> <!-- Cambia 123 por el ID real del producto -->
+                                <input type="hidden" name="quantiti" value="1"> <!-- Cambia 1 por la cantidad deseada -->
+                                <button type="submit" class="btn btn-primary">Agregar al carrito</button>
+                                </form>
+                                <div class="card__description">{{this.descr}}</div>
                             </div>
                         </div>
                     </div>
-
-                    <div class="col-md-4 mb-4">
-                        <div class="card">
-                            <img src="/Imagenes/REPUESTOS 2.jpg" class="card-img-top" alt="OUTER BARREL 11 M4/M16">
-                            <div class="card-body">
-                                <h5 class="card-title">OUTER BARREL 11" M4/M16</h5>
-                                <p class="card-text">$29.990</p>
-                                <button class="alert-button">agregar al carrito</button>
-                                <div class="card__description">
-                                    <p>Outer Barrel 11" M4/M16<p>
-
-                                    <p>(Repuesto standard)<p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-md-4 mb-4">
-                        <div class="card">
-                            <img src="/Imagenes/REPUESTOS 1.jpg" class="card-img-top" alt="SET DE REPUESTOS GLOCK DOUBLE BELL">
-                            <div class="card-body">
-                                <h5 class="card-title">SET DE REPUESTOS GLOCK DOUBLE BELL</h5>
-                                <p class="card-text">$30.990</p>
-                                <button class="alert-button">agregar al carrito</button>
-                                <div class="card__description">
-                                    <p>Set de Repuestos Glock Double Bell<p> 
-
-                                    <p>Front sight<p>
-
-                                    <p>Rear sight<p>
-
-                                    <p>Trigger safety<p>
-
-                                    <p>Trigger<p>
-
-                                    <p>Magazine catch<p>
-
-                                    <p>Magazine follower<p>
-
-                                    <p>Spring retainer for logn magazine<p>
-
-                                    <p>Magazine lip<p>
-
-                                    <p>Recoil spring<p>
-
-                                    <p>Hop up adjunto dial <p>
-
-                                    <p>Pistón base<p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-        </div>
+                    
+                    
+{{/each}}
+</div>
+{{> footer}}

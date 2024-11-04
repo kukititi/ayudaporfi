@@ -1,0 +1,39 @@
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container-fluid">
+            <a class="navbar-brand" href="/"> 
+                <img src="/Imagenes/logo.png" class="img-fluid" height="100px" width="100px"></img></a>
+                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav ms-auto">
+                        <li class="nav-item">
+                            <a class="nav-link" href="/Accesorios">Accesorios</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/Equipo">Equipamiento</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/Repuestos">Repuestos</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/Replicas">Replicas</a>
+                        </li>
+{{#if isAuthenticated}}
+                        <li class="nav-item">
+                            <a class="nav-link" href="/profile">Perfil</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/Carrito">Carrito <img src="/Imagenes/carrito-de-compras.png" class="img-fluid" height="15px" width="15px"></a>
+                        </li>
+                       
+{{else}}
+                        <li class="nav-item">
+                            <a class="nav-link" href="/Login">Login</a>
+{{/if}}
+                    </ul>
+                </div>
+            </div>
+        </nav>
+        
+    

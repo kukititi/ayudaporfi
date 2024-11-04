@@ -7,6 +7,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="/css/inicio.css">
 </head>
+{{> navbar isAuthenticated=isAuthenticated}}
 
     <div class="container-fluid hero-section text-center">  
         <div class="hero-text">
@@ -44,8 +45,31 @@
     <div class="container mt-5">
         <h2 class="text-center mb-4">Productos Destacados</h2>
         <div class="row">
-            <div class="col-md-3">
-               
+         {{#each products}}
+    <div class="col-md-4 mb-4">
+        <div class="card">
+            <img src="{{this.foto}}" class="card-img-top" alt="SET MOTOR GRIP C/TAPA M4 BK">
+            <div class="card-body">
+                <h5 class="card-title">{{this.name}}</h5>
+                <p class="card-text">${{this.price}}</p>       
+                {{#if (eq req.user.role "admin")}} 
+    <form action="/editar" method="post">
+        <input type="hidden" name="prod_id" value="{{this.id}}">
+        <button type="submit" class="btn btn-primary">Editar</button>
+    </form>
+                {{else}}
+                    <form action="/carrito/add" method="post">
+                        <input type="hidden" name="prod_id" value="{{this.id}}"> <!-- Cambia 123 por el ID real del producto -->
+                        <input type="hidden" name="quantiti" value="1"> <!-- Cambia 1 por la cantidad deseada -->
+                        <button type="submit" class="btn btn-primary">Agregar al carrito</button>
+                    </form>
+                {{/if}}
+                <div class="card__description">{{this.descr}}</div>
+            </div>
+        </div>
+    </div>
+{{/each}}
+              </div>
             </div>
         </div>
     </div>
@@ -55,3 +79,4 @@
             <p>¡Bienvenido a Tienda Cool, somos apasionados del airsoft y estamos comprometidos a ofrecerte una experiencia de compra única y emocionante. Nuestra tienda en línea está diseñada para ofrecerte una amplia gama de armas de airsoft, accesorios y equipos de alta calidad para que puedas disfrutar al máximo de cada partida. Desde rifles hasta pistolas, contamos con una selección de modelos de las mejores marcas para adaptarnos a todos los estilos y niveles de juego. Mejora tu equipo con nuestra variedad de accesorios, incluyendo miras, bipodes, cargadores y piezas de repuesto para mantener tu arma en perfecto estado. Equípate como un profesional con nuestros chalecos, cascos y otros elementos de vestuario táctico diseñados para proporcionar comodidad y protección. Encuentra la ropa adecuada para el juego y otros artículos que harán que tu experiencia sea aún más realista. Trabajamos con los mejores fabricantes para ofrecerte productos duraderos y de alto rendimiento. Nuestro equipo está listo para ayudarte a elegir el equipo perfecto según tus necesidades y preferencias. Nos aseguramos de que tus pedidos lleguen a tiempo y en perfectas condiciones. Explora nuestro catálogo y únete a la comunidad de entusiastas del airsoft que confían en Tienda Cool para mejorar su juego. ¡Estamos aquí para ayudarte a vivir la aventura del airsoft al máximo!</p>
         </div>
     </footer>
+{{> footer}}
