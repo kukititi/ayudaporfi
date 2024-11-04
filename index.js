@@ -9,12 +9,16 @@ import bcrypt from 'bcryptjs';
 import authRouter from '/home/kukititi/ayudaporfi/routes/auth.js';
 import productsRouter from '/home/kukititi/ayudaporfi/routes/products.js';
 import cartRouter from '/home/kukititi/ayudaporfi/routes/cart.js';
+import profileRouter from '/home/kukititi/ayudaporfi/routes/profile.js';
+import { isatty } from 'tty';
+import adminRouter from '/home/kukititi/ayudaporfi/routes/admin.js';
+
+
+
 
 const SPW = 'Amimegustalapepsi';
 const galletita = 'galletita';
 const sql = neon('postgresql://piscolita_owner:qg0uBlwk4vLc@ep-withered-silence-a5uth5dy.us-east-2.aws.neon.tech/piscolita?sslmode=require');
-
-
 
 const app = express();
 const __filename = fileURLToPath(import.meta.url);
@@ -28,15 +32,22 @@ const checkAuthentication = (req) => {
     return false;
   }
 };
+const adminMiddleware = (req, res, next) => {
+  if (req.user && req.user.role === 'admin') {
+      return next(); // El usuario es administrador, continúa
+  }
+  return res.status(403).send('Acceso denegado'); // No es administrador
+};
 const authMiddleware = (req, res, next) => {
   const token = req.cookies[galletita];
   try {
     req.user = jwt.verify(token, SPW);
     next();
   } catch (e) {
-    res.render('unauthorised');
+    return res.render('unauthorised');
   }
 };
+
 
 app.use(express.static(path.join(__dirname, "/public")));
 app.use(express.json());
@@ -46,9 +57,11 @@ app.use(cookieParser());
 app.engine('handlebars', engine({
     helpers: {
         multiply: (a, b) => a * b,
-        totalPrice: (cart) => cart.reduce((acc, item) => acc + (item.price * item.quantity), 0)
-    }
+        totalPrice: (cart) => cart.reduce((acc, item) => acc + (item.price * item.quantity), 0),
+        eq: (a, b) => a === b // Helper para comparar igualdad
+      }
 }));
+
 app.set('view engine', 'handlebars');
 app.set('views', './views');
 
@@ -61,6 +74,18 @@ app.get("/", async (req, res) => {
     products,
     user,
     title: "Home",
+    isAuthenticated,
+  });
+});
+app.get('/homea', async (req, res) => {
+  const isAuthenticated = checkAuthentication(req);
+  const products = await sql('SELECT * FROM products');
+  const users = await sql('SELECT * FROM users WHERE id = 1');
+  const user = users[0];
+  res.render("homea", {
+    products,
+    user,
+    title: "Home Admin",
     isAuthenticated,
   });
 });
@@ -106,8 +131,8 @@ app.get('/Registro', async (req, res) => {
 });
 
 app.get('/LogAdmin', (req, res) => {
-
-  res.render('LogAdmin');
+  const error = req.query.error;
+  res.render('LogAdmin', { error });
 });
 
 app.get('/products', async (req, res) => {
@@ -116,6 +141,48 @@ app.get('/products', async (req, res) => {
   res.render('products', { lista, isAuthenticated });
 });
 
+app.post('/LogAdmin', async (req, res) => {
+  const email = req.body.email;
+  const rut = req.body.rut;
+  const password = req.body.contra; 
+
+  if (!email || !rut || !password) {
+      res.redirect(302, 'login?error=missing_fields');
+      return;
+  }
+
+  try {
+      const query = 'SELECT id, password FROM users WHERE rut = $1'; // Asegúrate de que 'password' sea el nombre correcto de la columna
+      const results = await sql(query, [rut]);
+
+      if (results.length === 0) {
+          res.redirect(302, 'login?error=unauthorised');
+          return;
+      }
+
+      const id = results[0].id;
+      const hash = results[0].password; // Cambia 'passw' a 'password'
+
+      // Aquí se debe usar una función para comparar el hash
+      const match = await bcrypt.compare(password, hash); // Usa bcrypt para comparar contraseñas
+
+      if (match) { 
+          const FMFN = Math.floor(Date.now() / 1000) + 5 * 60; // 5 minutos de expiración
+          const token = jwt.sign(
+              { id, role: 'admin', exp: FMFN },
+              SPW
+          );
+
+          res.cookie('galletita', token, { maxAge: 60 * 5 * 1000 });
+          res.redirect(302, '/homea'); 
+      } else {
+          res.redirect(302, 'login?error=unauthorised');
+      }
+  } catch (error) {
+      console.error('Error during admin login:', error);
+      res.status(500).send('Error al procesar la solicitud');
+  }
+});
 
 
 app.post('/login', async (req, res) => {
@@ -152,6 +219,11 @@ app.post('/registrar', async (req, res) => {
   const name = req.body.name;
   const email = req.body.email;
   const password = req.body.password;
+
+  if (!email || !rut || !password) {
+    res.redirect(302, 'login?error=missing_fields');
+    return;
+}
 
   const hash = bcrypt.hashSync(password, 5);
   
@@ -272,6 +344,9 @@ app.post('/carrito/remove', async (req, res) => {
   }
 });
 
+app.post('/pagar', async (req, res) => {
+
+});
 app.post('/recargar-saldo', authMiddleware, async (req, res) => {
   const userId = req.user.id;
   const { amount } = req.body;
@@ -301,6 +376,9 @@ app.post('/recargar-saldo', authMiddleware, async (req, res) => {
 app.use('/api/auth', authRouter);
 app.use('/api/products', productsRouter);
 app.use('/api/cart', cartRouter);
+app.use('/api/profile', profileRouter);
+app.use('/api/admin', adminRouter);
 
 
 app.listen(3000, () => console.log('tuki'));
+

@@ -8,12 +8,15 @@
     <link rel="stylesheet" type="text/css" href="/css/estiloproductos.css">
 </head>
 {{> navbar }}
-            <section class="col-md-9">
-                <h3>REPLICAS</h3>
+<div class="d-flex justify-content-center align-items-center mb-3">
+    <section class="col-md-9 text-center">
+        <h3>REPLICAS</h3>
                 <img src="/Imagenes/BANNER REPLICAS.png" alt="Accesorios" class="img-fluid mb-4">
-
-{{#each lista}}
-                <div class="row">
+</section>
+</div>
+                
+<div class="row">
+          {{#each lista}}
                     <div class="col-md-4 mb-4">
                         <div class="card">
                             <img src="{{this.foto}}" class="card-img-top" alt="SET MOTOR GRIP C/TAPA M4 BK">
@@ -29,11 +32,8 @@
                             </div>
                         </div>
                     </div>
-                </div>
-
 {{/each}}
-            </section>
-        </div>
-
+    </section>
+</div>
 
 {{> footer}}

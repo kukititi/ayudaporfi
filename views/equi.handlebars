@@ -8,92 +8,31 @@
     <link rel="stylesheet" type="text/css" href="/css/estiloproductos.css">
 </head>
 {{> navbar}}
-            <section class="col-md-9">
-                <h3>EQUIPAMIENTO</h3>
-                <img src="/Imagenes/BANER EQUIPAMIENTO.png" alt="Accesorios" class="img-fluid mb-4">
+                <div class="d-flex justify-content-center align-items-center mb-3">
+    <section class="col-md-9 text-center">
+        <h3>EQUIPAMIENTO</h3>
+        <img src="/Imagenes/BANER EQUIPAMIENTO.png" alt="Accesorios" class="img-fluid mb-4">
+    </section>
+</div>
 
-                <div class="d-flex justify-content-between align-items-center mb-3">
-
-                    
-                </div>
-{{#each lista}}
-                <div class="row">
+<div class="row">
+          {{#each lista}}
                     <div class="col-md-4 mb-4">
                         <div class="card">
                             <img src="{{this.foto}}" class="card-img-top" alt="SET MOTOR GRIP C/TAPA M4 BK">
                             <div class="card-body">
                                 <h5 class="card-title">{{this.name}}</h5>
                                 <p class="card-text">${{this.price}}</p>
-                                <button class="alert-button">agregar al carrito</button>
+                                <form action="/carrito/add" method="post">
+                                <input type="hidden" name="prod_id" value="{{this.id}}"> <!-- Cambia 123 por el ID real del producto -->
+                                <input type="hidden" name="quantiti" value="1"> <!-- Cambia 1 por la cantidad deseada -->
+                                <button type="submit" class="btn btn-primary">Agregar al carrito</button>
+                                </form>
                                 <div class="card__description">{{this.descr}}</div>
                             </div>
                         </div>
                     </div>
-                </div>
-
 {{/each}}
-                <div class="row">
-                   
-                    <div class="col-md-4 mb-4">
-                        <div class="card">
-                            <img src="/Imagenes/casco-mitch-bk.jpg" class="card-img-top" alt="CASCO MITCH BK">
-                            <div class="card-body">
-                                <h5 class="card-title">CASCO MITCH BK</h5>
-                                <p class="card-text">$32.990 </p>
-                                <button class="alert-button">agregar al carrito</button>
-                            </div>
-                            <div class="card__description">
-
-                                <p>Casco Mitch<p>
-
-                                <p>Color: Bk<p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-md-4 mb-4">
-                        <div class="card">
-                            <img src="/Imagenes/chaleco-tactico-ciras-tan.jpg" class="card-img-top" alt="CHALECO TÁCTICO CIRAS TAN">
-                            <div class="card-body">
-                                <h5 class="card-title">CHALECO TÁCTICO CIRAS TAN</h5>
-                                <p class="card-text">$33.990 </p>
-                                <button class="alert-button">agregar al carrito</button>
-                            </div>
-                            <div class="card__description">
-
-                                <p>CHALECO TÁCTICO CIRAS<p>
-
-                                <p>- Talla única ajustable en costados y hombros<p>
-
-                                <p>- Color: TAN<p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-md-4 mb-4">
-                        <div class="card">
-                            <img src="/Imagenes/guante-tactico-esdy-bk.jpg" class="card-img-top" alt="GUANTE TÁCTICO ESDY BK">
-                            <div class="card-body">
-                                <h5 class="card-title">GUANTE TÁCTICO ESDY BK</h5>
-                                <p class="card-text">$9.490 </p>
-                                <button class="alert-button">agregar al carrito</button>
-                            </div>
-                            <div class="card__description">
-
-                                <p>Guante Táctico<p>
-
-                                <p>Marca: ESDY<p>
-
-                                <p>Color: BK<p>
-
-                                <p>Talla: M - L - XL<p>
-                            </div>
-                        </div>
-                    </div>
-                    
-                </div>
-            </section>
-        </div>
-
+    </section>
 
 {{> footer}}

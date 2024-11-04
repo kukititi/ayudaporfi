@@ -25,24 +25,30 @@
                 <tbody>
                     {{#each cart}}
                         <tr>
-                            <td>{{this.name}}</td>
+                            <td>{{this.name}}</td> 
                             <td>{{this.quantity}}</td>
-                            <td>{{this.price}}</td>
-                            <td>{{multiply this.quantity this.price}}</td>
+                            <td>${{this.price}}</td> <!-- Formato de precio -->
+                            <td>${{multiply this.quantity this.price}}</td>
                             <td>
                                 <form action="/carrito/remove" method="POST" style="display:inline;">
                                     <input type="hidden" name="id" value="{{this.id}}">
-                                    <button type="submit" class="btn btn-danger">Eliminar</button>
+                                    <button type="submit" class="btn btn-outline-danger" aria-label="Eliminar producto {{this.name}}">Eliminar</button>
                                 </form>
                             </td>
                         </tr>
                     {{/each}}
                 </tbody>
             </table>
+            
             <div class="text-end">
                 <h3>Total: ${{totalPrice cart}}</h3>
-                <button class="btn btn-primary">Proceder al Pago</button>
+                <form action="/pagar" method="post" style="display:inline;">
+                    <input type="hidden" name="totalAmount" value="{{totalPrice cart}}">
+                    <input type="hidden" name="id" value="{{us_id}}">
+                    <button type="submit" class="btn btn-primary">Proceder al Pago</button>
+                </form>
             </div>
+
         {{else}}
             <p>Tu carrito está vacío.</p>
         {{/if}}

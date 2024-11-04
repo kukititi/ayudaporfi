@@ -8,26 +8,32 @@
     <link rel="stylesheet" type="text/css" href="/css/estiloproductos.css">
 </head>
 {{> navbar}}
-            <section class="col-md-9">
-                <h3>ACCESORIOS</h3>
-                <img src="/Imagenes/BANNER ACCESORIOS.png" alt="Accesorios" class="img-fluid mb-4">
-
-{{#each lista}}
-                <div class="row">
+<div class="d-flex justify-content-center align-items-centermb-3">
+    <section class="col-md-9 text-center">
+        <h3>ACCESORIOS</h3>
+        <img src="/Imagenes/BANNER ACCESORIOS.png" alt="Accesorios" class="img-fluid mb-4">
+    </section>
+</div>
+                
+<div class="row">
+          {{#each lista}}
                     <div class="col-md-4 mb-4">
                         <div class="card">
                             <img src="{{this.foto}}" class="card-img-top" alt="SET MOTOR GRIP C/TAPA M4 BK">
                             <div class="card-body">
                                 <h5 class="card-title">{{this.name}}</h5>
                                 <p class="card-text">${{this.price}}</p>
-                                <button class="alert-button">agregar al carrito</button>
+                                <form action="/carrito/add" method="post">
+                                <input type="hidden" name="prod_id" value="{{this.id}}"> <!-- Cambia 123 por el ID real del producto -->
+                                <input type="hidden" name="quantiti" value="1"> <!-- Cambia 1 por la cantidad deseada -->
+                                <button type="submit" class="btn btn-primary">Agregar al carrito</button>
+                                </form>
                                 <div class="card__description">{{this.descr}}</div>
                             </div>
                         </div>
                     </div>
-                </div>
-
 {{/each}}
-
+    </section>
+</div>
 
 {{> footer}}

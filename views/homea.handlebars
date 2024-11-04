@@ -7,7 +7,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="/css/inicio.css">
 </head>
-{{> navbar isAuthenticated=isAuthenticated}}
+{{> navbAd }}
 
     <div class="container-fluid hero-section text-center">  
         <div class="hero-text">
@@ -52,18 +52,10 @@
             <div class="card-body">
                 <h5 class="card-title">{{this.name}}</h5>
                 <p class="card-text">${{this.price}}</p>       
-                {{#if (eq req.user.role "admin")}} 
     <form action="/editar" method="post">
         <input type="hidden" name="prod_id" value="{{this.id}}">
         <button type="submit" class="btn btn-primary">Editar</button>
     </form>
-                {{else}}
-                    <form action="/carrito/add" method="post">
-                        <input type="hidden" name="prod_id" value="{{this.id}}"> <!-- Cambia 123 por el ID real del producto -->
-                        <input type="hidden" name="quantiti" value="1"> <!-- Cambia 1 por la cantidad deseada -->
-                        <button type="submit" class="btn btn-primary">Agregar al carrito</button>
-                    </form>
-                {{/if}}
                 <div class="card__description">{{this.descr}}</div>
             </div>
         </div>
