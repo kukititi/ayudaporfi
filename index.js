@@ -6,10 +6,15 @@ import { fileURLToPath } from "url";
 import jwt from 'jsonwebtoken';
 import cookieParser from 'cookie-parser';
 import bcrypt from 'bcryptjs';
+import authRouter from '/home/kukititi/ayudaporfi/routes/auth.js';
+import productsRouter from '/home/kukititi/ayudaporfi/routes/products.js';
+import cartRouter from '/home/kukititi/ayudaporfi/routes/cart.js';
 
 const SPW = 'Amimegustalapepsi';
 const galletita = 'galletita';
 const sql = neon('postgresql://piscolita_owner:qg0uBlwk4vLc@ep-withered-silence-a5uth5dy.us-east-2.aws.neon.tech/piscolita?sslmode=require');
+
+
 
 const app = express();
 const __filename = fileURLToPath(import.meta.url);
@@ -292,6 +297,10 @@ app.post('/recargar-saldo', authMiddleware, async (req, res) => {
   }
 });
 
+
+app.use('/api/auth', authRouter);
+app.use('/api/products', productsRouter);
+app.use('/api/cart', cartRouter);
 
 
 app.listen(3000, () => console.log('tuki'));
